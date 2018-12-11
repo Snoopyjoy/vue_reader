@@ -74,18 +74,6 @@ export default{
         {
 		    name:'系统字体',
         fontvalue:''
-      },
-      {
-        name:'仿宋字体',
-        fontvalue:'fangsong'
-      },
-      {
-        name:'毛笔字体',
-        fontvalue:'ygy',
-      },
-      {
-        name:'楷书字体',
-        fontvalue:'kaishu',
       }
       ]
 		}

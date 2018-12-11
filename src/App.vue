@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <keep-alive >
-      <router-view v-if="$route.meta.keepAlive"></router-view>
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
-    <router-link to="/"> <button class="btn" v-show="isbutton" @click="isbtn">点击进入</button></router-link>
-    <m-foot id="foot" style="display: none"></m-foot>
+      <keep-alive >
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+      <m-foot id="foot" ></m-foot>
   </div>
 </template>
 
 <script>
   import footer from './components/footandhead/footer'
+
+  let deviceWidth = document.documentElement.clientWidth;
+  if(deviceWidth > 640) deviceWidth = 640;
+  document.documentElement.style.fontSize = deviceWidth / 45 + 'px';
 
   export default {
     components:{

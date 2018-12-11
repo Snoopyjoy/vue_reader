@@ -9,18 +9,18 @@
 
 /*//禁止文本缩放 字体设置  取消touch高亮效果*/
 
-@font-face {
+/*@font-face {
   font-family: 'ygy';
   src: url("./font/ygy.ttf");
 }
 @font-face {
   font-family: 'fangsong';
-  src: url("./font/simfang.ttf");
+  src: url("./font/ygy.ttf");
 }
 @font-face {
   font-family: 'kaishu';
-  src: url("./font/simkai.ttf");
-}
+  src: url("./font/ygy.ttf");
+}*/
 html {
 
     width: 100%;
@@ -34,8 +34,6 @@ html {
    font-family: "miui", "Helvetica Neue",Helvetica,STHeiTi,sans-serif;
 
    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-   font-size: 62.5%;
 
     background: transparent;
    }

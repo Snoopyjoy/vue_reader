@@ -12,12 +12,12 @@
 			<!--</li>-->
 		<!--</ul>-->
 
-<div>
-    <mu-bottom-nav color="pink" :value.sync="shift">
-      <mu-bottom-nav-item to='/' title="书架" value="书架" icon="person_outline"></mu-bottom-nav-item>
-      <mu-bottom-nav-item to="/myBooks" title="今日推荐" value="今日推荐" icon="restore"></mu-bottom-nav-item>
-      <mu-bottom-nav-item to="/category" title="分类" value="分类" icon="sort"></mu-bottom-nav-item>
-      <mu-bottom-nav-item to="/rank" title="排行榜" value="排行榜" icon="receipt"></mu-bottom-nav-item>
+<div class="footer-container">
+    <mu-bottom-nav color="#FF0000" :value.sync="shift">
+      <mu-bottom-nav-item to="/store" title="书城" value="书城" icon="home"></mu-bottom-nav-item>
+      <mu-bottom-nav-item to="/category" title="分类" value="分类" icon="dashboard"></mu-bottom-nav-item>
+      <mu-bottom-nav-item to='/me' title="书架" value="书架" icon="library_books"></mu-bottom-nav-item>
+      <mu-bottom-nav-item to="/rank" title="排行榜" value="排行榜" icon="person"></mu-bottom-nav-item>
     </mu-bottom-nav>
 </div>
 
@@ -27,7 +27,7 @@
 	export default{
 		data(){
 			return{
-        shift: '书架',
+        shift: '书城',
 			}
 		},
 		methods:{
@@ -39,5 +39,9 @@
 	}
 </script>
 <style type="text/css">
-
+  .footer-container{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
 </style>

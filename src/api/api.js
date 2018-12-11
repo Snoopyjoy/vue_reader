@@ -1,6 +1,10 @@
 import qs from 'querystring'
 import fetch from '@/axios/fetch'
 
+/*import axios from 'axios';
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';*/
+
+
 //获取带书籍数量的父分类
 // const baseURL='http://api.zhuishushenqi.com/';
 //'/api/ '/api/
@@ -99,6 +103,27 @@ export function getRank(categoryid){
     url:'/api/ranking/'+categoryid,
 
   })
+}
+
+export function getBanner(){
+  return new Promise((resolve,reject)=>{
+    resolve(
+      [
+        {
+          book:"1",
+          link:"http://res.hxl2lgy.top/b_2.jpg"
+        },
+        {
+          book:"2",
+          link:"http://res.hxl2lgy.top/b_2.jpg"
+        },
+        {
+          book:"3",
+          link:"http://res.hxl2lgy.top/b_2.jpg"
+        }
+      ]
+    );
+  });
 }
 
 

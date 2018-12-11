@@ -34,6 +34,7 @@ import ranklist from '../components/bookranklist'
 import categorylist from "../components/categorylist"
 import me from "../components/me"
 import search from "../components/search"
+import store from "../components/store"
 Vue.use(Router)
 
 export default new Router({
@@ -41,8 +42,16 @@ export default new Router({
   routes: [
         {
           path:'/',
-          name:'me',
-          component: resolve => require(['@/components/me'], resolve),
+          name:'store',
+          component: resolve => require(['@/components/store'], resolve),
+          meta:{
+            keepAlive:false
+          }
+        },
+        {
+          path:'/store',
+          name:'store',
+          component: resolve => require(['@/components/store'], resolve),
           meta:{
             keepAlive:false
           }
@@ -51,6 +60,15 @@ export default new Router({
           path: '/myBooks',
           name: 'myBooks',
           component: resolve => require(['@/components/myBooks'], resolve),
+          meta:{
+            keepAlive:true
+          }
+
+        },
+        {
+          path: '/me',
+          name: 'me',
+          component: resolve => require(['@/components/me'], resolve),
           meta:{
             keepAlive:true
           }
