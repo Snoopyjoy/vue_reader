@@ -7,12 +7,7 @@
 				<p v-show="this.$store.state.isShowCatlog" class="catlog-reverse" @click="toChapter">章节跳跃</p>
 		</div>
 		<ul id="test" v-show="this.$store.state.isShowCatlog" class="book-catalog">
-			<a @click="changeChapter(index)" href="javascript:"  v-for='(list,index) in catlog'><li class="catalog-lists">{{list.title}}</li></a>
-		</ul>
-		<ul v-show="this.$store.state.isShowSource" class="book-catalog">
-			<a @click="changeSource(list._id)" href="javascript:"  v-for='(list,index) in sources'>
-				<li class="catalog-lists"><p>{{list.name}}</p>最后更新：{{list.lastChapter}}</li>
-			</a>
+			<a @click="changeChapter(index)" href="javascript:"  v-for='(title,index) in catlog'><li class="catalog-lists">{{title}}</li></a>
 		</ul>
 	</div>
 	</transition>
@@ -21,28 +16,13 @@
 import util from '../../api/util'
 import {MessageBox,Toast} from 'mint-ui'
 	export default{
-		props:['catlog','sources','Total'],
+		props:['catlog','Total'],
 		methods:{
 			hidelist(){
 				this.$store.commit('ChangeDetail')
 			},
 			changeChapter(index){
 				this.$emit('ChangeChapter',index);
-			},
-			changeSource(id){
-				let localShelf = util.getLocalData('myfollowbook')?util.getLocalData('myfollowbook'):{};
-			if(!localShelf[this.$route.params.bookid]){
-					this.$store.commit('SetSourceId',id);
-					util.setLocalData('myfollowbook',localShelf);
-					this.$emit('ChangeSource')
-					this.$store.commit('ChangeDetail');
-				}else{
-					localShelf[this.$route.params.bookid].source=id;
-					this.$store.commit('SetSourceId',id);
-					util.setLocalData('myfollowbook',localShelf);
-					this.$emit('ChangeSource')
-					this.$store.commit('ChangeDetail');
-				}
 			},
 			toChapter(){
 				MessageBox.prompt('请输入想去的章节').then(data=>{
@@ -54,7 +34,7 @@ import {MessageBox,Toast} from 'mint-ui'
 		},
 		computed:{
 			menu(){
-				return this.$store.state.isShowCatlog || this.$store.state.isShowSource
+				return this.$store.state.isShowCatlog
 			}
 		}
 	}

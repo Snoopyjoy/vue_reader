@@ -13,7 +13,7 @@
 </template>
 <script type="text/javascript">
 import { Indicator } from 'mint-ui'
-import {getRecommend,getBookSources} from '../../api/api'
+import {recommendBooks,getBookSources} from '../../api/api'
 import util from '../../api/util'
 
 	export default{
@@ -29,11 +29,17 @@ import util from '../../api/util'
 			getrecommend(){
 				Indicator.open()
 				this.recommend=[];
-				getRecommend(this.$route.params.bookid).then(res=>{
-					let books=res.data.books;
-					books.forEach((book)=>{
-						book.cover= util.staticPath+book.cover;
-						this.recommend.push(book);
+        recommendBooks(this.$route.params.bookid).then(res=>{
+          res.forEach((book)=>{
+						this.recommend.push({
+              cover: book.images,
+              title: book.name,
+              _id: book._id,
+              author: book.author,
+              wordCount: book.wordcount,
+              longIntro: book.intro,
+              type: book.type
+            });
 					})
 					Indicator.close();
 				})

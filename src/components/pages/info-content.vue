@@ -2,14 +2,14 @@
 <div>
 	<div class="book-info-content">
 		<div class="book-info-cover">
-			<img :src="Imgurl">
+			<img :src="book.cover">
 		</div>
 		<div class="book-info-describle">
 			<h3 class="book-info-title">{{book.title}}</h3>
 			<p>作者：{{book.author}}</p>
-			<p>字数：{{ WordCount }}</p>
-			<p>收藏人数：{{latelyFollower}}</p>
-			<p>最后更新：{{datareset}}</p>
+			<p>字数：{{ book.wordCount }}万</p>
+			<p>类型：{{ book.type }}</p>
+			<p>系列：{{ book.serialize }}</p>
 		</div>
 	</div>
 	<ul class="btn-info-group">
@@ -19,11 +19,6 @@
 	<div class="info-longintro">
 		<p>{{book.longIntro}}</p>
 	</div>
-	<div class="info-last-chapter">
-		<p>最后更新:<a @click="quickread()" class="last-update" href="javascript:" >
-			{{book.lastChapter}}
-		</a></p>
-	</div>
 	<div class="info-tags">
 		<span v-for='(tag,key) in book.tags' v-if='key<5'>{{ tag }}</span>
 	</div>
@@ -31,7 +26,7 @@
 
 </template>
 <script type="text/javascript">
-import {getBookInfo,getBookSources} from '../../api/api'
+import {getBookInfo} from '../../api/api'
 import util from '../../api/util'
 import moment from 'moment'
 import { Indicator } from 'mint-ui'
@@ -48,11 +43,6 @@ moment.locale('zh-cn')
 			}
 		},
 		computed:{
-			Imgurl (){
-				if(!this.book.cover && typeof(this.book.cover) === 'undefined')
-					return
-				return util.staticPath + this.book.cover;
-			},
 			WordCount (){
 				if(this.book.wordCount-10000>0){
 					return parseInt(this.book.wordCount/10000)+'万';
@@ -124,24 +114,25 @@ moment.locale('zh-cn')
 			getbookInfo(){
 				Indicator.open()
 				getBookInfo(this.$route.params.bookid).then(res=>{
-					this.book=res.data;
+					this.book= {
+					  cover: res.images,
+            title: res.name,
+            _id: res._id,
+            author: res.author,
+            wordCount: res.wordcount,
+            longIntro: res.intro,
+            type: res.type,
+            serialize: res.serialize
+          }
 
 					this.isFollow();
-					this.getbookSource();
 					this.$store.commit('SetBookInfo',res.data)
 					Indicator.close()
 				}),err=>{
 					console.log(err)
 					Indicator.close()
 				}
-			},
-			getbookSource() {
-        if (this.$route.name === "bookinfo"||this.$route.name === "reader") {
-          getBookSources({view: 'summary', book: this.$route.params.bookid}).then(res => {
-            this.$store.commit('SetSourceId', res.data[0]._id)
-          })
-        }
-      }
+			}
 		}
 	}
 </script>

@@ -57,6 +57,7 @@ import { Indicator } from 'mint-ui'
 	}
 	.book-info-container{
 		height: 97.5%;
+    padding-bottom: 56px;
 		overflow-y:scroll;
 	}
 </style>

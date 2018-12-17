@@ -1,0 +1,10 @@
+
+.store-search .mint-searchbar{
+  background-color: red;
+}
+.store-search .mint-searchbar-cancel{
+  color: white;
+}
+.store-search .mint-searchbar-inner{
+  border-radius: 5px;
+}

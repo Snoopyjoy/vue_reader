@@ -9,6 +9,7 @@
 </template>
 
 <script>
+
   import footer from './components/footandhead/footer'
 
   let deviceWidth = document.documentElement.clientWidth;

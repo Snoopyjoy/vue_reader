@@ -3,7 +3,7 @@
 	<div class="reader-container" @touchstart="checkStart" @touchmove="checkmove" @touchend="oprationAction">
 			<reader-content :bookContent='chapterContent' :Title="Title"></reader-content>
 			<reader-menu @prev="chapterUp" @next="chapterDown" :isMenuShow="ismenushow" :Now="currentChapter+1" :Total="Total"></reader-menu>
-			<reader-catalog @ChangeSource="changeSource" @ChangeChapter="goChapter" :catlog="chapters" :sources="sources" :Total="Total"></reader-catalog>
+			<reader-catalog @ChangeChapter="goChapter" :catlog="chapters" :Total="Total"></reader-catalog>
 	</div>
 </transition>
 </template>
@@ -13,7 +13,7 @@ import readermenu from './reader-menu'
 import readercatalog from './reader-catalog'
 import {Indicator,MessageBox,Toast} from 'mint-ui'
 import util from '../../api/util'
-import {getChapter,getBookChapter,getBookSources} from '../../api/api'
+import {getChapters,getContent} from '../../api/api'
 export default{
 
 	beforeRouteLeave(to,from,next){
@@ -59,7 +59,7 @@ export default{
 		return{
 			ismenushow:false,
 			ismove:false,
-			chapters:{},
+			chapters:[],
 			currentChapter:0,
 			chapterContent:{},
 			sources:{},
@@ -76,7 +76,6 @@ export default{
 	},
  created(){
    this.getChapters();
-   this.getSources();
    document.getElementById("foot").style.display="none";
  },
 	watch:{
@@ -85,19 +84,18 @@ export default{
 	methods:{
 		getChapters(){
 			Indicator.open()
-		let localShelf=util.getLocalData('myfollowbook')?util.getLocalData('myfollowbook'):{},
-			sourceId=localShelf[this.$route.params.bookid]&&localShelf[this.$route.params.bookid].source?localShelf[this.$route.params.bookid].source : this.$store.state.SourceId;
-			getChapter(sourceId).then(res=>{
-				this.chapters = res.data.chapters;
+		let localShelf=util.getLocalData('myfollowbook')?util.getLocalData('myfollowbook'):{};
+			getChapters(this.$route.params.bookid).then(chapters=>{
+				this.chapters = chapters;
 				this.currentChapter = localShelf && localShelf[this.$route.params.bookid] && localShelf[this.$route.params.bookid].lastChapter ? localShelf[this.$route.params.bookid].lastChapter : 0;
 				this.getChapterContent();
 			})
 		},
 		getChapterContent(){
 			let lastChapter = this.currentChapter>this.chapters.length - 1 ? this.chapters.length - 1 :this.currentChapter;
-			getBookChapter(encodeURIComponent(this.chapters[lastChapter].link)).then(res=>{
-				this.chapterContent = res.data.chapter;
-				this.Title = this.chapters[this.currentChapter].title;
+      getContent( this.$route.params.bookid, lastChapter+1 ).then(data=>{
+				this.chapterContent = data.content;
+				this.Title = this.chapters[this.currentChapter];
 				this.Total = this.chapters.length - 1 ;
  				document.getElementById('reader-page-view').scrollTop=0;
 				Indicator.close();
@@ -106,15 +104,6 @@ export default{
 				Toast('获取章节失败')
 				Indicator.close();
 			})
-		},
-		getSources(){
-			getBookSources({view:'summary',book:this.$route.params.bookid}).then(res=>{
-				this.sources = res.data;
-			})
-		},
-		changeSource(){
-			this.getChapters();
-			this.ismenushow=false;
 		},
 		checkStart(el){
 			this.ismove = false;

@@ -1,8 +1,8 @@
 import qs from 'querystring'
 import fetch from '@/axios/fetch'
 
-/*import axios from 'axios';
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';*/
+import axios from 'axios';
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 
 
 //获取带书籍数量的父分类
@@ -37,12 +37,12 @@ export function getCategoryInfo(category_type){
   })
 }
 
-//获取书籍详情
+/*//获取书籍详情
 export function getBookInfo(id){
   return fetch({
     url: '/api/book/'+id,
   })
-}
+}*/
 
 //获取书籍相关推荐
 export function  getRecommend(id){
@@ -106,24 +106,126 @@ export function getRank(categoryid){
 }
 
 export function getBanner(){
-  return new Promise((resolve,reject)=>{
-    resolve(
-      [
-        {
-          book:"1",
-          link:"http://res.hxl2lgy.top/b_2.jpg"
-        },
-        {
-          book:"2",
-          link:"http://res.hxl2lgy.top/b_2.jpg"
-        },
-        {
-          book:"3",
-          link:"http://res.hxl2lgy.top/b_2.jpg"
-        }
-      ]
-    );
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("lobby.banner",{})).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data )
+      } )
+    }catch (err){
+      reject(err);
+    }
   });
+}
+
+export function getNotice(){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("lobby.notice",{})).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data )
+      } )
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+export function getGroup(){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("lobby.group",{})).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+export function getBookInfo( bookID ){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("book.info",{ id: bookID })).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+export function getBoosInfoList( books ){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("book.infoList",{ books: books })).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+export function getChapters( bookID ){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("book.chapters",{ id: bookID })).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+export function recommendBooks( bookID ){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("book.recommendBooks",{ id: bookID })).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+export function getContent( bookID , chapter){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("book.content",{ id: bookID , chapter: chapter })).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+function getPostOption( method, data ){
+  return {
+    method: 'post',
+    url: '/api',//'http://127.0.0.1:6403/api',//
+    data: {
+      method:method,
+      data:data
+    }
+  }
+}
+
+function handlData( data ){
+  if( data.code === 1 ){
+    return data.data;
+  }else{
+    throw new Error(data.msg);
+  }
 }
 
 

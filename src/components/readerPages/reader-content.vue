@@ -33,8 +33,7 @@ import _ from 'lodash'
 		computed:{
 			Content(){
 				if(!_.isEmpty(this.bookContent)){
-				let text = this.bookContent && this.bookContent.cpContent ? 'cpContent' : 'body'
-				return this.bookContent[text].split('\n')
+				return this.bookContent.split('\n')
 				}
 			}
 		}

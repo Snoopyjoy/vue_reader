@@ -8,7 +8,6 @@
 		<div  v-show="isMenuShow" class="reader-menu-bottom fix">
 			<a @click="showcatlog"  class="reader-menu-tabs reader-menu-toc" href="javascript:"><mu-icon  class="reader-icon-tabs"value="book">目录</mu-icon></a>
 			<a @click="fontmenu" class="reader-menu-tabs reader-menu-font" href="javascript:"><mu-icon class="reader-icon-tabs" value="settings">设置</mu-icon></a>
-			<a @click="showsources" class="reader-menu-tabs reader-menu-source" href="javascript:"><mu-icon class="reader-icon-tabs" value="language">换源</mu-icon></a>
 			<a @click="nightmode" class="reader-menu-tabs reader-menu-night" href="javascript:"><mu-icon class="reader-icon-tabs " :value="isnighticon">日/夜</mu-icon></a>
 			<div v-show="isFontMenuShow" class="reader-font-set">
         <div class="reader-font-size">
@@ -49,7 +48,8 @@ export default{
 			this.$set(this.isactive,i,false);
 		}
 		this.$set(this.isactive,num,true);
-    let num2 = localStorage.getItem('myfontnum');
+    let num2 = localStorage.getItem('myfontnum') || 0;
+
     let j=0 ;
     for( j in this.isactivefont){
       this.$set(this.isactivefont,j,false);
@@ -194,7 +194,7 @@ export default{
 	}
 	.reader-menu-tabs,.reader-menu-tabs:visited,.reader-menu-tabs:hover{
 		float: left;
-		width: 25%;
+		width: 33.33%;
 		text-align: center;
 		line-height: 18px;
 		color: #fff;
