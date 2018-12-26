@@ -4,13 +4,13 @@
 				<li class="category-book-item" v-for="book in Lists">
 					<router-link :to="{'name':'bookinfo',params:{bookid:book._id}}" class="fix">
 						<div class="category-book-cover">
-							<img :src="book.cover" :title="book.title">
+							<img v-lazy="book.images" :title="book.name">
 						</div>
 						<div class="category-book-msg">
-							<h3 class="category-book-title">{{book.title}}</h3>
-							<p class="category-list-author">{{book.author}}<span class="category-col-line">|</span>{{book.majorCate}}</p>
-							<p>{{book.shortIntro}}</p>
-							<p class="category-book-star">{{book.latelyFollower}}人在追<span class="category-col-line">|</span>{{book.retentionRatio}}%留存</p>
+							<h3 class="category-book-title">{{book.name}}</h3>
+							<p class="category-list-author">{{book.author}}<span class="category-col-line">|</span>{{book.serialize}}</p>
+							<p>{{book.intro}}</p>
+							<p class="category-book-star">{{book.type}}<span class="category-col-line">|</span>{{book.wordcount}}万字</p>
 						</div>
 					</router-link>
 				</li>

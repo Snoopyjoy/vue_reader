@@ -209,10 +209,36 @@ export function getContent( bookID , chapter){
   });
 }
 
+export function search( keyword , page){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("book.search",{ keywords: keyword , index: page })).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
+export function getHotWords(){
+  return new Promise(async (resolve,reject)=>{
+    try{
+      axios(getPostOption("book.hotwords",{})).then( (response)=>{
+        const data = handlData(response.data);
+        resolve( data );
+      } );
+    }catch (err){
+      reject(err);
+    }
+  });
+}
+
 function getPostOption( method, data ){
   return {
     method: 'post',
-    url: '/api',//'http://127.0.0.1:6403/api',//
+    url: 'http://127.0.0.1:6403/api',//'/api',//'http://127.0.0.1:6403/api',//
     data: {
       method:method,
       data:data

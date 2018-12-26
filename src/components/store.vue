@@ -4,10 +4,11 @@
       <div class="index-main-box">
         <div class="index-scroll-view" ref="indexview">
           <mt-search
-            v-model="value"
+            v-model="keywords"
             cancel-text="取消"
             placeholder="可搜书名和作者"
             class="store-search"
+            @keyup.native.enter="search(keywords)"
           >
           </mt-search>
           <mt-swipe :auto="4000">
@@ -54,13 +55,13 @@
     components:{
       'm-head':indexHeader
     },
-    props:["value"],
     data(){
       return {
         swiperList:[],
         noticeList:[],
         groupList:[],
         animate:false,
+        keywords:"",
         noticeActiveIndex:0
       }
     },
@@ -72,6 +73,14 @@
           this.noticeList.shift();               //删除数组的第一个元素
           this.animate=false;  // margin-top 为0 的时候取消过渡动画，实现无缝滚动
         },2000)
+      },
+      search(keywords){
+        this.$router.push({//你需要接受路由的参数再跳转
+          path: "/search",
+          query: {
+            keyword: keywords
+          }
+        });
       }
     },
     created(){

@@ -27,7 +27,7 @@
 <script type="text/javascript">
   import {Toast,Indicator} from 'mint-ui'
 import listitem from './listitem/listitem'
-import {getSearchHotwords, getSearchResult} from '../api/api'
+import { getHotWords, search} from '../api/api'
 import util from '../api/util'
 	export default{
 		components:{
@@ -44,7 +44,11 @@ import util from '../api/util'
 			}
 		},
 		created(){
-			this.getSearchHot()
+			this.getSearchHot();
+      this.keyword = this.$route.query.keyword;
+      if( this.keyword ){
+        this.searchbook();
+      }
 		},
 		beforeRouteLeave(to,from,next){
 			this.$store.commit('SetSearchResult',{})
@@ -57,7 +61,7 @@ import util from '../api/util'
 				}else{
 					this.noResult=false;
 					document.getElementById('list-view').scrollTop= 0;
-					this.lists=this.$store.state.SearchResult.books;
+					this.lists=this.$store.state.SearchResult.list;
 				}
 			},
 
@@ -78,18 +82,15 @@ import util from '../api/util'
           Indicator.close()
           return;
         }
-        getSearchResult({query:this.keyword}).then(res=>{
-          res.data.books.forEach(book=>{
-            book.cover = util.staticPath+book.cover;
-          })
-          this.$store.commit('SetSearchResult',res.data);
+        search(this.keyword,0).then(data=>{
+          this.$store.commit('SetSearchResult',data);
           this.showHotword=false
           Indicator.close()
         })
       },
 		  getSearchHot(){
-        getSearchHotwords().then(res=>{
-          this.hotwords = res.data.searchHotWords.slice(0,10);
+        getHotWords().then(data=>{
+          this.hotwords = data;
           this.randomcolor()
         })
       },
@@ -103,15 +104,8 @@ import util from '../api/util'
 				}
 			},
 			tags(word){
-        Indicator.open()
-	          getSearchResult({query:word}).then(res=>{
-	              res.data.books.forEach(book=>{
-	                book.cover = util.staticPath+book.cover;
-	              })
-                this.showHotword=false
-	              this.$store.commit('SetSearchResult',res.data);
-              Indicator.close()
-	            })
+        this.keyword = word;
+			  this.searchbook();
 			}
 		}
 	}
@@ -121,7 +115,7 @@ import util from '../api/util'
 		height: 92vh;
 		overflow: hidden;
 		position: relative;
-    padding-bottom: 25px;
+    padding-bottom: 84px;
 	}
 	.search-input-group{
 		position: absolute;
