@@ -238,7 +238,7 @@ export function getHotWords(){
 function getPostOption( method, data ){
   return {
     method: 'post',
-    url: 'http://127.0.0.1:6403/api',//'/api',//'http://127.0.0.1:6403/api',//
+    url: '/api',//'http://127.0.0.1:6403/api',//
     data: {
       method:method,
       data:data

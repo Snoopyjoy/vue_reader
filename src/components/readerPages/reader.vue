@@ -106,13 +106,22 @@ export default{
 			})
 		},
 		checkStart(el){
+
+      let view = document.getElementById('reader-page-view');
 			this.ismove = false;
-      this.startX = el.changedTouches[0].pageX
+      this.startX = el.changedTouches[0].pageX;
+      this.startY = el.changedTouches[0].pageY;
+      this.startYpos = view.scrollTop;
 		},
 		checkmove(el){
+      let view = document.getElementById('reader-page-view');
 			this.ismove = true;
       let moveEndX = el.changedTouches[0].pageX;
-      this.X = moveEndX - this.startX
+      let moveEndY = el.changedTouches[0].pageY;
+        view.scrollTop = this.startYpos + this.startY - moveEndY;
+
+      this.X = moveEndX - this.startX;
+      el.preventDefault();
 		},
 		oprationAction(el){
       let view = document.getElementById('reader-page-view');
@@ -135,21 +144,7 @@ export default{
 					}
 					view.scrollTop += screenHeight;
 				}
-			}else{
-			  if (this.X>0){
-			    console.log(this.X>0);
-          el.preventDefault();
-          view.scrollTop -= screenHeight;
-
-        }else {
-          console.log(this.X>0);
-          el.preventDefault();
-          if(view.scrollHeight == view.scrollTop+screenHeight){
-            this.currentChapter++;
-          }
-          view.scrollTop += screenHeight;
-        }
-      }
+			}
 		},
 		goChapter(num){
 			this.currentChapter = num;

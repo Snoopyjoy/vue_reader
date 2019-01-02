@@ -55,8 +55,8 @@ export default{
       this.$set(this.isactivefont,j,false);
     }
     this.$set(this.isactivefont,num2,true);
-    let num3 = localStorage.getItem('myfontsize');
-    this.fontsize=num3;
+    let num3 = localStorage.getItem('myfontsize') || 14;
+    this.fontsize=Number(num3);
   },
 
 	props:['isMenuShow','Now','Total'],

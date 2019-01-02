@@ -1,7 +1,9 @@
 <template>
 		<div id="reader-page-view" class="reader-content-box" :style='bkcolor' ref="readerview">
-			<h3 class="reader-title">{{ Title }}</h3>
-			<p class="reader-content" v-for="text in Content">{{text.trim()}}</p>
+
+      <h3 class="reader-title">{{ Title }}</h3>
+      <p class="reader-content" v-for="text in Content">{{text.trim()}}</p>
+
 		</div>
 </template>
 <script type="text/javascript">
@@ -45,8 +47,8 @@ import _ from 'lodash'
 		max-width: 900px;
 		margin:0 auto;
 		height: 100vh;
-		overflow: hidden;
-	}
+    overflow: hidden;
+  }
 	.reader-content{
     color: #777;
 		line-height: 1.8;
